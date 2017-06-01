@@ -3,6 +3,7 @@
  * 
  */
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collection;
 
@@ -22,8 +23,9 @@ public class Abstract {
 
 	/**
 	 * @param args
+	 * @throws IOException
 	 */
-	public static void learnRules(String fpath, String fname) {
+	public static void learnRules(String fpath, String fname) throws IOException {
 		Config config = new Config.Builder() //
 				.setAll(true).setBlind(true).setDebug(true).setFull(true).setKill("5").setMute(false) //
 				.setGringo("/Users/Shubham/Downloads/gringo-3.0.5-macos-10.8.3/gringo").setClasp("/usr/local/bin/clasp")
@@ -60,15 +62,16 @@ public class Abstract {
 				Hypothesis hypothesis = new Hypothesis.Builder(grounding).parse(result).build();
 				System.out.println(hypothesis.getHypotheses().length);
 
-				for (Clause clause : hypothesis.getHypotheses())
+				String content = "";
+				for (Clause clause : hypothesis.getHypotheses()) {
+					content += clause.toString() + "\n";
 					System.out.println(clause);
-
+				}
+				FileUtil.writeToFile(content, Constants.learntRulesPath, fname);
+				break;
 			}
 
 		}
-
-		// Answers answers = problem.solve();
-		// System.out.println(answers);
 	}
 
 }

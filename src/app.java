@@ -3,33 +3,52 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 class app {
 
-	public static void main(String[] args) throws ClassNotFoundException {
+	public static void main(String[] args) throws ClassNotFoundException, IOException, InterruptedException {
 
-		Preprocessing preprocess = new Preprocessing(true, false);
-		RuleLearnDataset rldObj = new RuleLearnDataset();
-		ArrayList<DataInstance> modalLearnDataset = new ArrayList<>();
+		StanfordUtil su = new StanfordUtil(true, false);
+		System.out.println(su.lemmatize("nerdy investor"));
+		System.out.println(su.getPOS(("So, doesn't Ma Ying-jeou want his name to go down in history?")));
+
+		Catvar catvar = new Catvar();
+		catvar.analyzeCatvar();
+		/*Preprocessing preprocess = new Preprocessing();
 		FileUtil futil = new FileUtil();
 		String folname = "/Users/Shubham/Documents/workspace/ILP/SerializedObjects/unsplitDataset";
 		File folder = new File(folname);
+		int ct = 0;
+		int fnum = 0;
 		for (String fname : futil.listFileNamesInFolder(folder)) {
+			fnum++;
 			try {
 				FileInputStream fileIn = new FileInputStream(folname + "/" + fname);
 				ObjectInputStream in = new ObjectInputStream(fileIn);
 				ArrayList<DataInstance> data_instances_temp = (ArrayList<DataInstance>) in.readObject();
-				modalLearnDataset.addAll(rldObj.generateModalConceptDataset("possible", data_instances_temp));
+		
+				for (DataInstance d : data_instances_temp) {
+					ArrayList<String> concepts = new ArrayList<>();
+					preprocess.getConcepts(d.root, concepts);
+					if (concepts.contains("amr") && !su.lemmatize(d.getSentence()).contains("?")) {
+						System.out.println(fnum + " " + d.getSentence());
+						System.out.println(su.getPOS(d.getSentence()));
+						ct++;
+					}
+				}
+				System.out.println(ct);
 				in.close();
 				fileIn.close();
 			} catch (IOException i) {
 				i.printStackTrace();
 				return;
 			}
-		}
+		}*/
+		//		makeModalILPFile();
+		//		makeModalILPFile("possible");
 
-		preprocess.makeModalILPFile("possible", modalLearnDataset);
-
+		//		Abstract.learnRules(Constants.ilpPath, modalConcept + ".lp");
 		//		for (DataInstance d : modalLearnDataset) {
 		//			System.out.println(d.sentence);
 		//		}
@@ -91,6 +110,54 @@ class app {
 			preprocess.readAMR(Constants.trainingDataPath, fileName);
 		}*/
 
+	}
+
+	private static void makeModalILPFile() throws ClassNotFoundException, IOException {
+		Preprocessing preprocess = new Preprocessing(true, false);
+		RuleLearnDataset rldObj = new RuleLearnDataset();
+		ArrayList<Entry<DataInstance, ArrayList<String>>> modalLearnDataset = new ArrayList<>();
+		FileUtil futil = new FileUtil();
+		String folname = "/Users/Shubham/Documents/workspace/ILP/SerializedObjects/unsplitDataset";
+		File folder = new File(folname);
+		for (String fname : futil.listFileNamesInFolder(folder)) {
+			try {
+				FileInputStream fileIn = new FileInputStream(folname + "/" + fname);
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				ArrayList<DataInstance> data_instances_temp = (ArrayList<DataInstance>) in.readObject();
+				modalLearnDataset.addAll(rldObj.generateModalConceptDataset(data_instances_temp));
+				in.close();
+				fileIn.close();
+			} catch (IOException i) {
+				i.printStackTrace();
+				return;
+			}
+		}
+
+		preprocess.makeModalILPFile(modalLearnDataset);
+	}
+
+	private static void makeModalILPFile(String modalConcept) throws ClassNotFoundException, IOException {
+		Preprocessing preprocess = new Preprocessing(true, false);
+		RuleLearnDataset rldObj = new RuleLearnDataset();
+		ArrayList<DataInstance> modalLearnDataset = new ArrayList<>();
+		FileUtil futil = new FileUtil();
+		String folname = "/Users/Shubham/Documents/workspace/ILP/SerializedObjects/unsplitDataset";
+		File folder = new File(folname);
+		for (String fname : futil.listFileNamesInFolder(folder)) {
+			try {
+				FileInputStream fileIn = new FileInputStream(folname + "/" + fname);
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				ArrayList<DataInstance> data_instances_temp = (ArrayList<DataInstance>) in.readObject();
+				modalLearnDataset.addAll(rldObj.generateModalConceptDataset(modalConcept, data_instances_temp));
+				in.close();
+				fileIn.close();
+			} catch (IOException i) {
+				i.printStackTrace();
+				return;
+			}
+		}
+
+		preprocess.makeModalILPFile(modalConcept, modalLearnDataset);
 	}
 
 }

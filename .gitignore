@@ -3,3 +3,6 @@ bin/
 OntoNotes_Frames/
 SerializedObjects/
 src/xhail/
+catvarClusters/
+trainingILP/
+learntRules/

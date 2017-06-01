@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -67,6 +68,29 @@ public class StanfordUtil {
 		System.out.println(dependencyParse.toList());
 
 		return dependencyParse;
+	}
+
+	public List<String> getPOS(String sent) {
+		List<String> pos = new LinkedList<String>();
+
+		// create an empty Annotation just with the given text
+		Annotation document = new Annotation(sent);
+
+		// run all Annotators on this text
+		this.pipeline.annotate(document);
+
+		// Iterate over all of the sentences found
+		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
+		for (CoreMap sentence : sentences) {
+			// Iterate over all tokens in a sentence
+			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
+				// Retrieve and add the lemma for each word into the list of
+				// lemmas
+				pos.add(token.get(PartOfSpeechAnnotation.class));
+			}
+		}
+
+		return pos;
 	}
 
 }

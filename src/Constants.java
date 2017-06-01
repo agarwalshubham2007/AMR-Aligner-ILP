@@ -9,13 +9,17 @@ public class Constants {
 	public static String trainingDataPath = "/Users/Shubham/Documents/workspace/ILP/amr_anno_1.0/data/split/training";
 	public static String serializedPath = "/Users/Shubham/Documents/workspace/ILP/SerializedObjects";
 	public static String ilpPath = "/Users/Shubham/Documents/workspace/ILP/trainingILP";
+	public static String learntRulesPath = "/Users/Shubham/Documents/workspace/ILP/learntRules";
 	public static String ontoNotesFramesFolderPath = "/Users/Shubham/Documents/workspace/ILP/OntoNotes_Frames";
+	public static String catVarPath = "perl /Users/Shubham/Downloads/catvar21/CVsearch.pl";
+	public static String catVarClustersPath = "/Users/Shubham/Documents/workspace/ILP/catvarClusters";
 
 	public static HashSet<String> Modals = new HashSet<>();
 	// public static HashSet<String> ModalConcepts;
 	public static String[] ModalsList = { "can", "cannot", "can't", "could", "couldn't", "may", "might", "must",
 			"shall", "should", "shouldn't", "will", "would", "wouldn't", "won't" };
 	public static String[] ModalConceptList = { "possible", "likely", "obligate", "permit", "recommend", "prefer" };
+	public static String[] NegationLemmaList = { "not", "no" };
 
 	public Constants() {
 		IgnoreSent.add(IgnoreSent1);
