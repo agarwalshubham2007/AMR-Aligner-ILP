@@ -34,4 +34,12 @@ public class Constants {
 		// ModalConcepts.add(s);
 
 	}
+
+	public static boolean containsStringElement(String[] arr, String element) {
+		for (String s : arr) {
+			if (s.equals(element))
+				return true;
+		}
+		return false;
+	}
 }

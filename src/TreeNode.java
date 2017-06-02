@@ -2,7 +2,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TreeNode implements Serializable {
+public class TreeNode extends Position implements Serializable {
 	public String word;
 	public String alias;
 	public int frameNum;
@@ -58,6 +58,13 @@ public class TreeNode implements Serializable {
 		this.childrenCount = 0;
 		this.childEdge = new ArrayList<String>();
 		this.childNode = new ArrayList<TreeNode>();
+	}
+
+	public boolean isNodeCoref() {
+		if (this.alias == null && this.word != null && !StringUtil.isNumber(StringUtil.cleanString(this.word)))
+			return true;
+		else
+			return false;
 	}
 
 	public String getWord() {

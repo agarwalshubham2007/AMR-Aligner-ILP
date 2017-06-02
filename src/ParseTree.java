@@ -202,4 +202,21 @@ public class ParseTree extends Preprocessing {
 			return false;
 		}
 	}
+
+	public static void printParseTreeWithPosition(TreeNode root) {
+		if (root.word == null)
+			return;
+		System.out.println("Node: " + root.word + " | Position: " + root.getPosition());
+		System.out.println("# Children edges:" + root.childEdge.size());
+		for (int i = 0; i < root.childEdge.size(); i++)
+			System.out.println(root.childEdge.get(i));
+		System.out.println("# Children nodes:" + root.childNode.size());
+		for (int i = 0; i < root.childNode.size(); i++)
+			System.out.println(root.childNode.get(i).word);
+
+		System.out.println();
+
+		for (int i = 0; i < root.childNode.size(); i++)
+			printParseTreeWithPosition(root.childNode.get(i));
+	}
 }

@@ -337,6 +337,10 @@ public class Preprocessing {
 		}
 	}
 
+	public String cleanString(String word) {
+		return word.replaceAll("[^a-zA-Z0-9- ]", "").replaceAll("\\s+", " ").toLowerCase().trim();
+	}
+
 	public void getConcepts(TreeNode root, ArrayList<String> concepts) {
 		if (root.word == null)
 			return;
