@@ -21,13 +21,14 @@ public class Catvar {
 	 */
 	public ArrayList<String> getCatWords(String word) throws IOException, InterruptedException {
 		//		System.out.println("here");
+
 		ArrayList<String> clusterWords = new ArrayList<>();
-		int count = 0;
-		word = word.toLowerCase();
-		process = Runtime.getRuntime().exec(Constants.catVarPath + " " + word);
-		//		System.out.println("here1");
-		process.waitFor();
-		//		System.out.println("here2");
+		word = word.replaceAll("\\s+", "").toLowerCase().trim();
+		File f = new File(Constants.catVarClustersPath + "/" + word + ".txt");
+		if (!f.exists()) {
+			process = Runtime.getRuntime().exec(Constants.catvarSearchFilePath + " " + word);
+			process.waitFor();
+		}
 
 		BufferedReader br = null;
 		FileReader fr = null;

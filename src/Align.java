@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,7 +25,7 @@ public class Align extends Rules {
 		}
 	}
 
-	public HashMap<String, Integer> align(DataInstance d) {
+	public HashMap<String, Integer> align(DataInstance d) throws IOException, InterruptedException {
 		HashMap<String, Integer> alignments = new HashMap<>();
 		HashSet<Integer> sentenceWordsAlignedIndex = new HashSet<>();
 		ArrayList<TreeNode> nodes = d.getNodeCollection();
@@ -39,6 +40,9 @@ public class Align extends Rules {
 					alignments.put(n.position, wordIndex);
 				} else if ((wordIndex = isApplicableRule4(d.sentence, n, sentenceWordsAlignedIndex)) >= 0) {
 					alignments.put(n.position, wordIndex);
+				} else if ((wordIndex = isApplicableRule5(d.sentence, n, sentenceWordsAlignedIndex)) >= 0) {
+					alignments.put(n.position, wordIndex);
+					alignments.put(n.position + ".1", wordIndex);
 				}
 			}
 		}
