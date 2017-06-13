@@ -32,8 +32,14 @@ public class Align extends Rules {
 		for (TreeNode n : nodes) {
 			int wordIndex;
 			String res;
+			if (n.word.equals("imperative"))
+				System.out.println();
 			if (!alignments.containsKey(n.position)) {
 				if ((wordIndex = isApplicableRule1(d.sentence, n, sentenceWordsAlignedIndex)) >= 0) {
+					alignments.put(n.position, wordIndex);
+				} else if ((wordIndex = isApplicableRule16(d.sentence, n, sentenceWordsAlignedIndex)) >= 0) {
+					alignments.put(n.position, wordIndex);
+				} else if ((wordIndex = isApplicableRule15(d.sentence, n, sentenceWordsAlignedIndex)) >= 0) {
 					alignments.put(n.position, wordIndex);
 				} else if ((wordIndex = isApplicableRule5(d.sentence, n, sentenceWordsAlignedIndex)) >= 0) {
 					alignments.put(n.position, wordIndex);

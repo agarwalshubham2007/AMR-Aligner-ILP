@@ -61,23 +61,24 @@ public class Evaluation {
 							truePositive++;
 						else {
 							falsePositive++;
-							//							System.out.println(id + " : " + pos + " | " + alignedDataInstance.get(pos) + " | "
-							//									+ testDataInstance.get(pos));
+							System.out.println(id + " : " + pos + " | " + alignedDataInstance.get(pos) + " | "
+									+ testDataInstance.get(pos));
 						}
 					}
 				}
 
-				for (String pos : testDataInstance.keySet()) {
-					if (!present.contains(pos) && !pos.endsWith("r")) {
-						System.out.println(id + " : " + pos + " | " + testDataInstance.get(pos));
-					}
-				}
+				//				for (String pos : testDataInstance.keySet()) {
+				//					if (!present.contains(pos) && !pos.endsWith("r")) {
+				//						System.out.println(id + " : " + pos + " | " + testDataInstance.get(pos));
+				//					}
+				//				}
 				present.clear();
 			}
 		}
 		System.out.println(truePositive);
 		System.out.println(falsePositive);
 		double precision = ((double) truePositive / (truePositive + falsePositive));
+		//		double precision = .965;
 		double recall = ((double) truePositive / total);
 		double fscore = 2 * precision * recall / (precision + recall);
 		System.out.println("precision: " + precision);

@@ -319,6 +319,24 @@ public class Preprocessing {
 		return newList;
 	}
 
+	public List cleanListExceptDash(List L) {
+		List newList = new ArrayList<>();
+		for (int i = 0; i < L.size(); i++) {
+			newList.add(
+					((String) L.get(i)).replaceAll("[^a-zA-Z0-9- ]", "").replaceAll("\\s+", " ").toLowerCase().trim());
+		}
+		return newList;
+	}
+
+	public List cleanListExceptExclamation(List L) {
+		List newList = new ArrayList<>();
+		for (int i = 0; i < L.size(); i++) {
+			newList.add(
+					((String) L.get(i)).replaceAll("[^a-zA-Z0-9! ]", "").replaceAll("\\s+", " ").toLowerCase().trim());
+		}
+		return newList;
+	}
+
 	// cleans the passed set : remove punctuation(",. etc), lowercase, remove
 	// extra spaces, trim
 	public Set cleanSet(Set S) {

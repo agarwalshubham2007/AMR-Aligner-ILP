@@ -12,9 +12,7 @@ public class Rules extends Catvar {
 	public int isApplicableRule1(String sentence, TreeNode n, HashSet<Integer> sentenceWordsAlignedIndex) {
 		if (n.isNodeCoref())
 			return -1;
-		if (n.word.equals("\"Richmond\"")) {
-			System.out.println("break here");
-		}
+
 		Preprocessing preprocess = new Preprocessing();
 		StanfordUtil su = new StanfordUtil(true, false, false);
 		List<String> words = su.lemmatize(sentence.toLowerCase());
@@ -23,7 +21,9 @@ public class Rules extends Catvar {
 		//		preprocess.cleanArray(words);
 		String concept = n.word;
 		concept = preprocess.cleanString(concept);
-
+		if (concept.equals("intersect")) {
+			System.out.println("break here");
+		}
 		for (int i = 0; i < words.size(); i++) {
 			if (!words.get(i).equals("") && concept.equals(words.get(i)) && !sentenceWordsAlignedIndex.contains(i)) {
 				sentenceWordsAlignedIndex.add(i);
@@ -34,6 +34,8 @@ public class Rules extends Catvar {
 						|| (concept.equals("watkins") && words.get(i).equals("watkin"))
 						|| (concept.equals("dulles") && words.get(i).equals("dulle"))
 						|| (concept.equals("economy") && words.get(i).equals("economic"))
+						|| (concept.equals("close") && words.get(i).equals("closer"))
+						|| (concept.equals("intersect") && words.get(i).equals("intersection"))
 						|| (concept.charAt(concept.length() - 1) == 's'
 								&& words.get(i).equals(concept.substring(0, concept.length() - 1)))) {
 					sentenceWordsAlignedIndex.add(i);
@@ -433,6 +435,67 @@ public class Rules extends Catvar {
 					sentenceWordsAlignedIndex.add(i + 1);
 					return i + 1;
 				}
+			}
+		}
+		return -1;
+	}
+
+	/*
+	 * Rule: just like Rule 1 but for words separated by '-'
+	 */
+	public int isApplicableRule15(String sentence, TreeNode n, HashSet<Integer> sentenceWordsAlignedIndex)
+			throws IOException, InterruptedException {
+		if (n.isNodeCoref())
+			return -1;
+		if (n.word.equals("mega")) {
+			System.out.println("break here");
+		}
+		Preprocessing preprocess = new Preprocessing();
+		StanfordUtil su = new StanfordUtil(true, false, false);
+		List<String> words = su.lemmatize(sentence.toLowerCase());
+		words = preprocess.cleanListExceptDash(words);
+		//		String[] words = sentence.split(" ");
+		//		preprocess.cleanArray(words);
+		String concept = n.word;
+		concept = preprocess.cleanString(concept);
+
+		for (int i = 0; i < words.size(); i++) {
+			System.out.println(words.get(i) + " | " + concept);
+			if (!words.get(i).equals("") && words.get(i).charAt(0) != '-'
+					&& words.get(i).charAt(words.get(i).length() - 1) != '-' && words.get(i).contains("-")
+					&& (concept.equals(words.get(i).split("-")[0]) || concept.equals(words.get(i).split("-")[1]))) {
+				sentenceWordsAlignedIndex.add(i);
+				return i;
+			}
+			if (!words.get(i).equals("") && words.get(i).charAt(0) != '-'
+					&& words.get(i).charAt(words.get(i).length() - 1) != '-' && words.get(i).contains("-")
+					&& (getCatWords(concept).contains(words.get(i).split("-")[0])
+							|| getCatWords(concept).contains(words.get(i).split("-")[1]))) {
+				sentenceWordsAlignedIndex.add(i);
+				return i;
+			}
+
+		}
+		return -1;
+	}
+
+	/*
+	 * Rule: imperative
+	 */
+	public int isApplicableRule16(String sentence, TreeNode n, HashSet<Integer> sentenceWordsAlignedIndex) {
+		Preprocessing preprocess = new Preprocessing();
+		StanfordUtil su = new StanfordUtil(true, false, false);
+		List<String> words = su.lemmatize(sentence.toLowerCase());
+		words = preprocess.cleanListExceptExclamation(words);
+		String concept = n.word;
+		concept = preprocess.cleanString(concept);
+		if (!concept.equals("imperative"))
+			return -1;
+
+		for (int i = 0; i < words.size(); i++) {
+			if (words.get(i).equals("!") && !sentenceWordsAlignedIndex.contains(i)) {
+				sentenceWordsAlignedIndex.add(i);
+				return i;
 			}
 		}
 		return -1;
