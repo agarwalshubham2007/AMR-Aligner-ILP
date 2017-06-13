@@ -26,7 +26,7 @@ public class Preprocessing {
 	}
 
 	public Preprocessing(boolean lemma, boolean dependencies) {
-		sCore = new StanfordUtil(lemma, dependencies);
+		sCore = new StanfordUtil(lemma, dependencies, false);
 		constants = new Constants();
 	}
 
@@ -338,7 +338,7 @@ public class Preprocessing {
 	}
 
 	public String cleanString(String word) {
-		return word.replaceAll("[^a-zA-Z0-9- ]", "").replaceAll("\\s+", " ").toLowerCase().trim();
+		return word.replaceAll("[^a-zA-Z0-9 ]", "").replaceAll("\\s+", " ").toLowerCase().trim();
 	}
 
 	public void getConcepts(TreeNode root, ArrayList<String> concepts) {
@@ -377,7 +377,11 @@ public class Preprocessing {
 
 			br = new BufferedReader(new FileReader(amr_file));
 
+			String id = "";
 			while ((sCurrentLine = br.readLine()) != null) {
+				if (sCurrentLine.startsWith("# ::id")) {
+					id = sCurrentLine.split("::")[1].substring(3, sCurrentLine.split("::")[1].length() - 1);
+				}
 				if (sCurrentLine.startsWith("# ::snt")) {
 					String sent = sCurrentLine.split("snt")[sCurrentLine.split("snt").length - 1].substring(1);
 
@@ -404,7 +408,7 @@ public class Preprocessing {
 					if (!Constants.IgnoreSent.contains(sent)) {
 						ParseTree.makeParseTree(root, amr);
 						amr_roots.add(root);
-						data_instances.add(new DataInstance(sent, root));
+						data_instances.add(new DataInstance(id, sent, root));
 						printParseTree(root);
 					}
 				}

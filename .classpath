@@ -4,15 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="/Users/Shubham/Downloads/xhail.jar"/>
 	<classpathentry kind="lib" path="/Users/Shubham/Downloads/stanford-english-corenlp-2016-10-31-models.jar"/>
-	<classpathentry kind="lib" path="/Users/Shubham/.m2/repository/edu/stanford/nlp/stanford-corenlp/3.6.0/stanford-corenlp-3.6.0.jar" sourcepath="/Users/Shubham/.m2/repository/edu/stanford/nlp/stanford-corenlp/3.6.0/stanford-corenlp-3.6.0-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="edu.stanford.nlp"/>
-			<attribute name="maven.artifactId" value="stanford-corenlp"/>
-			<attribute name="maven.version" value="3.6.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="/Users/Shubham/Downloads/slf4j-api-1.6.0.jar"/>
+	<classpathentry kind="lib" path="/Users/Shubham/Downloads/stanford-corenlp-3.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

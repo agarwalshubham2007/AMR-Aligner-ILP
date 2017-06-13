@@ -12,30 +12,17 @@ class app {
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException, InterruptedException {
 
-		StanfordUtil su = new StanfordUtil(true, false);
-		System.out.println(su.lemmatize("nonexecutive"));
+		StanfordUtil su = new StanfordUtil(true, false, true);
+		System.out.println(su.lemmatize("This is a major `` D'oh '' moment .".toLowerCase()));
 		System.out.println(su.getPOS(("So, doesn't Ma Ying-jeou want his name to go down in history?")));
+		System.out.println(su.getPOS("What's your name ?"));
+		HashMap<String, String> corefMap = su.extractCoreferenceChain(
+				"when was the last time you were stuck in traffic that you were n't on your way to or from some sort of business ?");
 
-		Align algn = new Align();
-		String folname = "/Users/Shubham/Documents/workspace/ILP/SerializedObjects/unsplitDataset";
-		try {
-			FileInputStream fileIn = new FileInputStream(folname + "/" + "amr-release-1.0-consensus.txt.ser");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			ArrayList<DataInstance> data_instances_temp = (ArrayList<DataInstance>) in.readObject();
-
-			for (DataInstance d : data_instances_temp) {
-				algn.assignPositionsToGraph(d.root);
-				HashMap<String, Integer> alignments = algn.align(d);
-				for (String key : alignments.keySet())
-					System.out.print(alignments.get(key) + "-" + key + " ");
-				System.out.println("\n");
-			}
-			in.close();
-			fileIn.close();
-		} catch (IOException i) {
-			i.printStackTrace();
-			return;
+		for (String k : corefMap.keySet()) {
+			System.out.println(k + " " + corefMap.get(k));
 		}
+		evaluate();
 		//		Catvar catvar = new Catvar();
 		//		catvar.analyzeCatvar();
 		/*Preprocessing preprocess = new Preprocessing();
@@ -100,6 +87,38 @@ class app {
 		for (String fileName : fileNames) {
 			preprocess.readAMR(Constants.trainingDataPath, fileName);
 		}*/
+
+	}
+
+	private static void evaluate() throws ClassNotFoundException, InterruptedException, IOException {
+		StanfordUtil su = new StanfordUtil(true, false, false);
+		HashMap<String, HashMap<String, Integer>> alignedData = new HashMap<>();
+		Align algn = new Align();
+		String folname = "/Users/Shubham/Documents/workspace/ILP/SerializedObjects/unsplitDataset";
+		try {
+			FileInputStream fileIn = new FileInputStream(folname + "/" + "amr-release-1.0-consensus.txt.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			ArrayList<DataInstance> data_instances_temp = (ArrayList<DataInstance>) in.readObject();
+
+			for (DataInstance d : data_instances_temp) {
+				algn.assignPositionsToGraph(d.root);
+				HashMap<String, Integer> alignments = algn.align(d);
+				alignedData.put(d.id, alignments);
+				System.out.println(d.id);
+				for (String key : alignments.keySet())
+					System.out.print(alignments.get(key) + "-" + key + " ");
+				System.out.println("\n");
+			}
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		}
+
+		Evaluation e = new Evaluation();
+		e.readEvaluationDataset(Constants.testDataPath, "test-gold.txt");
+		e.evaluate(alignedData);
 
 	}
 

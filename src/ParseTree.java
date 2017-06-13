@@ -182,6 +182,7 @@ public class ParseTree extends Preprocessing {
 				root.frameNum = Integer.parseInt(frameStr);
 			else
 				word = word + parts[parts.length - 1].trim();
+			//				root.word += parts[parts.length - 1].trim();
 		}
 	}
 

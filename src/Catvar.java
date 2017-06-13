@@ -13,7 +13,7 @@ public class Catvar {
 	private StanfordUtil su;
 
 	public Catvar() {
-		su = new StanfordUtil(true, false);
+		su = new StanfordUtil(true, false, false);
 	}
 
 	/*

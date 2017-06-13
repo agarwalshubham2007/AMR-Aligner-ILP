@@ -13,6 +13,7 @@ public class Constants {
 	public static String ontoNotesFramesFolderPath = "/Users/Shubham/Documents/workspace/ILP/OntoNotes_Frames";
 	public static String catvarSearchFilePath = "perl /Users/Shubham/Downloads/catvar21/CVsearch.pl";
 	public static String catVarClustersPath = "/Users/Shubham/Documents/workspace/ILP/catvarClusters";
+	public static String testDataPath = "/Users/Shubham/Documents/workspace/ILP/testData";
 
 	public static HashSet<String> Modals = new HashSet<>();
 	// public static HashSet<String> ModalConcepts;

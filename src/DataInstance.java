@@ -2,11 +2,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class DataInstance implements Serializable {
+	public String id;
 	public String sentence;
 	public TreeNode root;
 
-	public DataInstance(String sentence, TreeNode root) {
+	public DataInstance(String id, String sentence, TreeNode root) {
 		super();
+		this.id = id;
 		this.sentence = sentence;
 		this.root = root;
 	}

@@ -61,7 +61,8 @@ public class TreeNode extends Position implements Serializable {
 	}
 
 	public boolean isNodeCoref() {
-		if (this.alias == null && this.word != null && !StringUtil.isNumber(StringUtil.cleanString(this.word)))
+		if (this.alias == null && !this.word.startsWith("\"") && !this.word.endsWith("\"")
+				&& !StringUtil.isNumber(StringUtil.cleanString(this.word)))
 			return true;
 		else
 			return false;
