@@ -10,4 +10,4 @@ The tools used in the development process are the following:
 The raw data consists of English sentences and AMR representation. Preprocessing steps on this raw data are as follows:
   - The English sentence is first converted into lowercase.
   - Using Stanford CoreNLP, background knowledge mentioned in Chapter 2 is extracted from the sentence.
-  - The AMR representation is stored in memory in a graph data structure using a recursive algorithm. The algorithm is Shown in Figure ![alt text](https://github.com/agarwalshubham2007/AMR-Aligner-ILP/tree/master/images/AlgoAMRGraph.png "Algo AMR Graph Construction") .
+  - The AMR representation is stored in memory in a graph data structure using a recursive algorithm. The algorithm is Shown [here](https://github.com/agarwalshubham2007/AMR-Aligner-ILP/tree/master/images/AlgoAMRGraph.png)
