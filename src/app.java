@@ -12,17 +12,26 @@ class app {
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException, InterruptedException {
 
-		StanfordUtil su = new StanfordUtil(true, false, true);
-		System.out.println(su.lemmatize("This is a major `` D'oh '' moment .".toLowerCase()));
-		System.out.println(su.getPOS(("So, doesn't Ma Ying-jeou want his name to go down in history?")));
-		System.out.println(su.getPOS("What's your name ?"));
-		HashMap<String, String> corefMap = su.extractCoreferenceChain(
-				"when was the last time you were stuck in traffic that you were n't on your way to or from some sort of business ?");
+		//		StanfordUtil su = new StanfordUtil(true, false, true);
+		//		System.out.println(su.lemmatize("This is a major `` D'oh '' moment .".toLowerCase()));
+		//		System.out.println(su.getPOS(("So, doesn't Ma Ying-jeou want his name to go down in history?")));
+		//		System.out.println(su.getPOS("What's your name ?"));
 
-		for (String k : corefMap.keySet()) {
-			System.out.println(k + " " + corefMap.get(k));
-		}
-		evaluate();
+		//		Preprocessing p = new Preprocessing();
+		//		p.readAMRandPrintToFileOnePerLine("/Users/Shubham/Documents/workspace/ILP/amr_anno_1.0/data/unsplit",
+		//				"amr-release-1.0-consensus.txt");
+
+		Evaluation e = new Evaluation();
+		e.evaluateAbstractDomain();
+		//		e.evaluateModalDomain();
+
+		//		HashMap<String, String> corefMap = su.extractCoreferenceChain(
+		//				"when was the last time you were stuck in traffic that you were n't on your way to or from some sort of business ?");
+		//
+		//		for (String k : corefMap.keySet()) {
+		//			System.out.println(k + " " + corefMap.get(k));
+		//		}
+		//		evaluate();
 		//		Catvar catvar = new Catvar();
 		//		catvar.analyzeCatvar();
 		/*Preprocessing preprocess = new Preprocessing();

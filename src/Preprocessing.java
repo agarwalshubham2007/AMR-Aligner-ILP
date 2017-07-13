@@ -377,6 +377,72 @@ public class Preprocessing {
 			getConcepts(root.childNode.get(i), concepts);
 	}
 
+	public void readAMRandPrintToFileOnePerLine(String path, String fileName) {
+		String amr_file = path + "/" + fileName;
+		BufferedReader br = null;
+		FileReader fr = null;
+		try {
+
+			fr = new FileReader(amr_file);
+			br = new BufferedReader(fr);
+
+			String sCurrentLine;
+
+			br = new BufferedReader(new FileReader(amr_file));
+
+			String sents = "";
+			String amrs = "";
+
+			String id = "";
+			while ((sCurrentLine = br.readLine()) != null) {
+				if (sCurrentLine.startsWith("# ::id")) {
+					id = sCurrentLine.split("::")[1].substring(3, sCurrentLine.split("::")[1].length() - 1);
+				}
+				if (sCurrentLine.startsWith("# ::snt")) {
+					String sent = sCurrentLine.split("snt")[sCurrentLine.split("snt").length - 1].substring(1);
+					sents = sents + sent + '\n';
+					System.out.println(sent);
+					String amr = "";
+					while (!(sCurrentLine = br.readLine()).equals("")) {
+						System.out.println("Line reading : " + sCurrentLine);
+						if (!sCurrentLine.startsWith("# ::")) {
+							amr += sCurrentLine;
+						}
+					}
+
+					amr = amr.replaceAll("(?m)(^ *| +(?= |$))", "").replaceAll("(?m)^$([\r\n]+?)(^$[\r\n]+?^)+", "$1");
+					amrs += amr + '\n';
+					System.out.println("AMR : " + amr);
+				}
+			}
+
+			sents = sents.substring(0, sents.length() - 1);
+			amrs = amrs.substring(0, amrs.length() - 1);
+			FileUtil.writeToFile(sents, "/Users/Shubham/Documents/workspace/ILP", "ENG.txt");
+			FileUtil.writeToFile(amrs, "/Users/Shubham/Documents/workspace/ILP", "AMR.txt");
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (br != null)
+					br.close();
+
+				if (fr != null)
+					fr.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+		}
+	}
+
 	public void readAMR(String path, String fileName) {
 		this.path = path;
 		this.fileName = fileName;

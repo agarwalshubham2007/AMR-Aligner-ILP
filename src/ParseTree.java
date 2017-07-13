@@ -1,7 +1,26 @@
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class ParseTree extends Preprocessing {
 	public ParseTree(boolean lemma, boolean dependencies) {
 		super(lemma, dependencies);
 		// TODO Auto-generated constructor stub
+	}
+
+	public static HashMap<String, String> getPositionConceptHM(TreeNode root) {
+		HashMap<String, String> positionConceptHM = new HashMap<>();
+		Queue<TreeNode> qu = new LinkedList<>();
+		qu.offer(root);
+
+		while (!qu.isEmpty()) {
+			TreeNode current = qu.poll();
+			positionConceptHM.put(current.position, current.word);
+			for (int i = 0; i < current.childEdge.size(); i++) {
+				qu.offer(current.childNode.get(i));
+			}
+		}
+		return positionConceptHM;
 	}
 
 	public static void resolveArgOf(TreeNode root) {
